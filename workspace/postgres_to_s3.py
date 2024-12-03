@@ -34,8 +34,7 @@ spark = SparkSession.builder \
 
 spark.sparkContext.setLogLevel("ERROR")
 
-tables_names = ['Part_in_Order', 'Supplier', 'Brand', 'Part', 'Part_for_Car', 'Part_Supplier', \
-               'Customer', 'Customer_Statut', 'Orders', 'Car_Manufacturer', 'Car', 'Part_Maker']
+tables_names = ['Patient_Readmissions']
 
 postgres_url= f"jdbc:postgresql://{POSTGRES_ENDPOINT}/{POSTGRES_DB}"
 
@@ -53,5 +52,5 @@ for table_name in tables_names:
     .write \
     .format("delta")\
     .mode("overwrite")\
-    .save(f"s3a://{AWS_BUCKET_NAME}/bronze/CarPartsDB/{today}/{table_name}")
+    .save(f"s3a://{AWS_BUCKET_NAME}/bronze/HospitalDB/{today}/{table_name}")
     print(f"{table_name} table done!")

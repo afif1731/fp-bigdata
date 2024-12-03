@@ -1,4 +1,4 @@
-FROM openjdk:11.0.11-jre-slim-buster as builder
+FROM openjdk:11.0.11-jre-slim-buster AS builder
 
 # Add Dependencies for PySpark
 RUN apt-get update && apt-get install -y curl vim wget software-properties-common ssh net-tools ca-certificates python3 python3-pip python3-numpy python3-matplotlib python3-scipy python3-pandas python3-simpy
@@ -18,7 +18,7 @@ RUN wget --no-verbose -O apache-spark.tgz "https://archive.apache.org/dist/spark
 && rm apache-spark.tgz
 
 
-FROM builder as apache-spark
+FROM builder AS apache-spark
 
 WORKDIR /opt/spark
 
@@ -40,7 +40,7 @@ touch $SPARK_WORKER_LOG && \
 ln -sf /dev/stdout $SPARK_MASTER_LOG && \
 ln -sf /dev/stdout $SPARK_WORKER_LOG
 
-ENV PATH /opt/spark/bin:/opt/spark/sbin:$PATH
+ENV PATH=/opt/spark/bin:/opt/spark/sbin:$PATH
 
 COPY start-spark.sh /
 
