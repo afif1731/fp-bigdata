@@ -109,3 +109,6 @@ services:
       - ./presto-config:/opt/presto/etc/catalog
     ports:
     - 8000:8080
+
+volumes:
+  bigdatas:
