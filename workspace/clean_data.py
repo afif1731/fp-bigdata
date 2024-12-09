@@ -26,7 +26,7 @@ spark = SparkSession.builder \
     .config("spark.delta.logStore.class", "io.delta.storage.S3SingleDriverLogStore") \
     .config('spark.jars','/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar')\
     .config('spark.jars','/opt/spark/jars/hadoop-aws-3.2.0.jar')\
-    .config('spark.jars','/opt/spark/jars/guava-30.1-jre.jar')\
+    .config('spark.jars','/opt/spark/jars/guava-27.0-jre.jar')\
     .config('spark.jars','/opt/spark/jars/delta-core_2.12-1.2.1.jar')\
     .enableHiveSupport()\
     .getOrCreate()
