@@ -26,4 +26,4 @@ RUN mv presto-cli-${PRESTO_VERSION}-executable.jar /usr/local/bin/presto
 RUN chmod +x /usr/local/bin/presto
 
 # Specify the entrypoint to start
-ENTRYPOINT ["/opt/presto/bin/launcher" "run"]
+ENTRYPOINT ["/opt/presto/bin/launcher", "run"]

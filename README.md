@@ -18,7 +18,7 @@ docker build -t cluster-apache-spark:3.1.1 Dockerfiles/spark
 ```
 - Run docker compose
 ```bash
-docker-compose up
+docker compose up
 ```
 
 - Create a bucket in [minio](http://localhost:9001) to store our data (name it datalake)

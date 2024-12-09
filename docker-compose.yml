@@ -15,7 +15,7 @@ services:
       - SPARK_WORKLOAD=master
       - PATH=/usr/local/openjdk-11/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin:/opt/spark/sbin
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7077"]
+      test: ["CMD", "curl", "-f", "http://localhost:9090"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -118,7 +118,7 @@ services:
       - "9083:9083"
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_started
 
   presto:
     image: presto:0.272.1
