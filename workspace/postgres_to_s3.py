@@ -44,7 +44,7 @@ spark = SparkSession.builder \
 spark.sparkContext.setLogLevel("ERROR")
 
 # List of tables to process
-table_names = ['Patient_Readmissions']
+table_names = ['patient_readmissions']
 
 # PostgreSQL connection URL
 postgres_url = f"jdbc:postgresql://{POSTGRES_ENDPOINT}/{POSTGRES_DB}"
@@ -64,7 +64,7 @@ for table_name in table_names:
         .load()
     
     # Write table to Delta format in S3
-    s3_path = f"s3a://{AWS_BUCKET_NAME}/bronze/HospitalDB/{today}/{table_name}"
+    s3_path = f"s3a://{AWS_BUCKET_NAME}/bronze/hospitaldb/{today}/{table_name}"
     df.write \
         .format("delta") \
         .mode("overwrite") \

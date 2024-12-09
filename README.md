@@ -14,7 +14,7 @@ This project aims also to create an Extract, Load, and Transform (ELT) pipeline 
 - First, build Spark and Presto docker image
 ```bash
 docker build -t presto:0.272.1 ./Dockerfiles/presto
-docker build -t cluster-apache-spark:3.1.1 Dockerfiles/spark
+docker build -t cluster-apache-spark:3.2.0 Dockerfiles/spark
 ```
 - Run docker compose
 ```bash

@@ -36,7 +36,7 @@ spark.sql("CREATE DATABASE IF NOT EXISTS dwh COMMENT 'Data Warehouse for Hospita
 
 # Reading tables from landing area
 print('\nReading ...')
-Patient_Readmissions = spark.read.format("delta").load(f's3a://datalake/bronze/HospitalDB/{today}/Patient_Readmissions')
+patient_readmissions = spark.read.format("delta").load(f's3a://datalake/bronze/hospitaldb/{today}/patient_readmissions')
 
 print('End of reading... \n')
 
@@ -44,6 +44,6 @@ print('End of reading... \n')
 
 # transforming tables to a set of dimensionel tables
 print('\ntransforming ...')
-Patient_Readmissions.write.format('delta').mode('overwrite').option('path','s3a://datalake/silver/warehouse/HospitalData/Dim_Patient_Readmissions').saveAsTable("dwh.DimPatientReadmissions")
+patient_readmissions.write.format('delta').mode('overwrite').option('path','s3a://datalake/silver/warehouse/hospitaldb/Dim_patient_readmissions').saveAsTable("dwh.DimPatientReadmissions")
 
 print('End Of Transforming')
