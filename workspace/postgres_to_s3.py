@@ -38,6 +38,7 @@ spark = SparkSession.builder \
     .config('spark.jars', 
         '/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar,'
         '/opt/spark/jars/hadoop-aws-3.2.0.jar,'
+        '/opt/spark/jars/guava-30.1-jre.jar,'
         '/opt/spark/jars/delta-core_2.12-1.2.1.jar,'
         '/opt/spark/jars/postgresql-42.3.5.jar') \
     .getOrCreate()
