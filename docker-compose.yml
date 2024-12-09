@@ -14,11 +14,6 @@ services:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
       - PATH=/usr/local/openjdk-11/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin:/opt/spark/sbin
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9090"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   spark-worker-a:
     image: cluster-apache-spark:3.1.1
@@ -26,7 +21,7 @@ services:
     hostname: spark-worker-a
     depends_on:
       spark-master:
-        condition: service_healthy
+        condition: service_started
     ports:
       - "9091:8080"
       - "7000:7000"
@@ -47,7 +42,7 @@ services:
     hostname: spark-worker-b
     depends_on:
       spark-master:
-        condition: service_healthy
+        condition: service_started
     ports:
       - "9092:8080"
       - "7001:7000"
