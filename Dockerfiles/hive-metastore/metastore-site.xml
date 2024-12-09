@@ -28,7 +28,7 @@
 
     <property>
         <name>javax.jdo.option.ConnectionUserName</name>
-        <value>admin</value>
+        <value>adminbigdata</value>
     </property>
 
     <property>
@@ -38,11 +38,11 @@
 
     <property>
         <name>fs.s3a.access.key</name>
-        <value>admin</value>
+        <value>adminbigdata</value>
     </property>
     <property>
         <name>fs.s3a.secret.key</name>
-        <value>123456789</value>
+        <value>2444666668888888</value>
     </property>
     <property>
         <name>fs.s3a.endpoint</name>
