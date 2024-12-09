@@ -1,6 +1,6 @@
 services:
   spark-master:
-    image: cluster-apache-spark:3.1.1  # docker build -t cluster-apache-spark:3.1.1 ./Dockerfiles/spark
+    image: cluster-apache-spark:3.2.0  # docker build -t cluster-apache-spark:3.2.0 ./Dockerfiles/spark
     container_name: master
     hostname: spark-master
     ports:
@@ -16,7 +16,7 @@ services:
       - PATH=/usr/local/openjdk-11/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin:/opt/spark/sbin
 
   spark-worker-a:
-    image: cluster-apache-spark:3.1.1
+    image: cluster-apache-spark:3.2.0
     container_name: worker-a
     hostname: spark-worker-a
     depends_on:
@@ -37,7 +37,7 @@ services:
       - ./workspace:/opt/workspace
 
   spark-worker-b:
-    image: cluster-apache-spark:3.1.1
+    image: cluster-apache-spark:3.2.0
     container_name: worker-b
     hostname: spark-worker-b
     depends_on:
