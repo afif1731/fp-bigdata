@@ -103,6 +103,8 @@ services:
       - MYSQL_USER=adminbigdata
       - MYSQL_PASSWORD=admin
       - MYSQL_DATABASE=metastore_db
+    volumes:
+    - ./mariadb-config/my.cnf:/etc/mysql/conf.d/my.cnf
 
   hive-metastore:
     build: ./Dockerfiles/hive-metastore
