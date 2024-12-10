@@ -37,7 +37,7 @@ spark = SparkSession.builder \
     .config("spark.delta.logStore.class", "io.delta.storage.S3SingleDriverLogStore") \
     .config('spark.jars', 
         '/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar,'
-        '/opt/spark/jars/hadoop-aws-3.2.0.jar,'
+        '/opt/spark/jars/hadoop-aws-3.3.1.jar,'
         '/opt/spark/jars/guava-27.0-jre.jar,'
         '/opt/spark/jars/delta-core_2.12-1.2.1.jar,'
         '/opt/spark/jars/postgresql-42.3.5.jar') \
@@ -54,22 +54,20 @@ postgres_url = f"jdbc:postgresql://{POSTGRES_ENDPOINT}/{POSTGRES_DB}"
 # Loop through tables
 for table_name in table_names:
     print(f"Processing table: {table_name}...")
-    
-    # Read table from PostgreSQL
-    df = spark.read \
-        .format("jdbc") \
-        .option("url", postgres_url) \
-        .option("dbtable", table_name) \
-        .option("user", POSTGRES_USER) \
-        .option("password", POSTGRES_PASSWORD) \
-        .option("driver", "org.postgresql.Driver") \
-        .load()
-    
-    # Write table to Delta format in S3
     s3_path = f"s3a://{AWS_BUCKET_NAME}/bronze/hospitaldb/{today}/{table_name}"
-    df.write \
-        .format("delta") \
-        .mode("overwrite") \
-        .save(s3_path)
+
+    # Read table from PostgreSQL
+    spark.read \
+    .format("jdbc") \
+    .option("url", postgres_url) \
+    .option("dbtable", table_name) \
+    .option("user", POSTGRES_USER) \
+    .option("password", POSTGRES_PASSWORD) \
+    .option("driver", "org.postgresql.Driver") \
+    .load() \
+    .write \
+    .format("delta") \
+    .mode("overwrite") \
+    .save(s3_path)
     
     print(f"Table {table_name} has been processed and saved to {s3_path}.")

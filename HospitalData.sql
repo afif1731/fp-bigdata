@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS Patient_Readmissions(
             days_in_hospital INT NOT NULL,
             comorbidity_score INT NOT NULL,
             discharge_to VARCHAR(125) NOT NULL,
-            readmitted BOOLEAN NOT NULL
+            readmitted INT NOT NULL
 );
