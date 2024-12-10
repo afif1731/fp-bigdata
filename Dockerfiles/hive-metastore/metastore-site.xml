@@ -20,6 +20,18 @@
         <name>javax.jdo.option.ConnectionDriverName</name>
         <value>com.mysql.cj.jdbc.Driver</value>
     </property>
+    <property>
+        <name>datanucleus.connectionPool.maxPoolSize</name>
+        <value>20</value>
+    </property>
+    <property>
+        <name>datanucleus.connectionPool.minPoolSize</name>
+        <value>5</value>
+    </property>
+    <property>
+        <name>datanucleus.connectionPool.maxIdle</name>
+        <value>10</value>
+    </property>
 
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
