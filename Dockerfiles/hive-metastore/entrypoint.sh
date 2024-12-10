@@ -3,6 +3,7 @@
 export HADOOP_HOME=/opt/hadoop-3.2.0
 export HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/tools/lib/aws-java-sdk-bundle-1.11.375.jar:${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-3.2.0.jar
 export JAVA_HOME=/usr/local/openjdk-8
+export CLASSPATH=$HIVE_HOME/lib/mysql-connector-java-8.0.33.jar
 
 # Initialize schema if not already initialized
 echo "Checking Hive Metastore schema..."
