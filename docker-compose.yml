@@ -92,7 +92,7 @@ services:
       - "5432:5432"
 
   mariadb:
-    image: mariadb:latest
+    image: mariadb:10.11.2
     container_name: mariadb
     hostname: mariadb
     ports:
@@ -107,15 +107,18 @@ services:
     - ./mariadb-config/my.cnf:/etc/mysql/conf.d/my.cnf
 
   hive-metastore:
-    build: ./Dockerfiles/hive-metastore
+    build: bitsondatadev/hive-metastore:latest
     container_name: hive-metastore
     hostname: hive-metastore
     restart: unless-stopped
     ports:
       - "9083:9083"
+    volumes:
+      - ./metastore-config/metastore-site.xml:/opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml:ro
+    environment:
+      METASTORE_DB_HOSTNAME: mariadb
     depends_on:
-      db:
-        condition: service_started
+      - mariadb
 
   presto:
     image: presto:0.272.1
