@@ -107,7 +107,7 @@ services:
     - ./mariadb-config/my.cnf:/etc/mysql/conf.d/my.cnf
 
   hive-metastore:
-    build: ghcr.io/bitsondatadev/hive-metastore:latest
+    image: bitsondatadev/hive-metastore:latest
     container_name: hive-metastore
     hostname: hive-metastore
     restart: unless-stopped
