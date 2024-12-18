@@ -12,25 +12,21 @@ HIVE_METASTORE_URI = os.getenv("HIVE_METASTORE_URI")
 
 spark = SparkSession.builder \
     .appName('Clean data') \
-    .config("hive.metastore.uris", "thrift://hive-metastore:9083")\
-    .config("spark.sql.warehouse.dir","s3a://datalake/warehouse")\
+    .config("spark.sql.catalogImplementation", "hive") \
+    .config("hive.metastore.uris", "thrift://hive-metastore:9083") \
+    .config("spark.sql.warehouse.dir", "s3a://datalake/warehouse") \
     .config("spark.hadoop.fs.s3a.access.key", AWS_ACCESS_KEY) \
     .config("spark.hadoop.fs.s3a.secret.key", AWS_SECRET_KEY) \
-    .config("fs.s3a.endpoint", AWS_S3_ENDPOINT)\
-    .config("spark.hadoop.fs.s3a.path.style.access", "true")\
-    .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
-    .config("fs.s3a.connection.ssl.enabled", "false")\
-    .config('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')\
-    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
-    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")\
-    .config("spark.delta.logStore.class", "io.delta.storage.S3SingleDriverLogStore") \
-    .config('spark.jars', 
-        '/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar,'
-        '/opt/spark/jars/hadoop-aws-3.3.1.jar,'
-        '/opt/spark/jars/guava-27.0-jre.jar,'
-        '/opt/spark/jars/delta-core_2.12-1.2.1.jar,'
-        '/opt/spark/jars/postgresql-42.3.5.jar') \
-    .enableHiveSupport()\
+    .config("fs.s3a.endpoint", AWS_S3_ENDPOINT) \
+    .config("spark.jars",
+        "/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar,"
+        "/opt/spark/jars/hadoop-aws-3.3.1.jar,"
+        "/opt/spark/jars/guava-27.0-jre.jar,"
+        "/opt/spark/jars/delta-core_2.12-1.2.1.jar,"
+        "/opt/spark/jars/postgresql-42.3.5.jar,"
+        "/opt/spark/jars/datanucleus-core-5.2.4.jar,"
+        "/opt/spark/jars/datanucleus-api-jdo-5.2.4.jar") \
+    .enableHiveSupport() \
     .getOrCreate()
 
 spark.sparkContext.setLogLevel("ERROR")
