@@ -1,7 +1,9 @@
 import os
 import pandas as pd
 from sqlalchemy import create_engine
+from dotenv import load_dotenv
 
+load_dotenv()
 # Fungsi untuk mendapatkan environment variable
 def get_env_var(var_name):
     value = os.getenv(var_name)
