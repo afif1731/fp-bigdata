@@ -24,15 +24,18 @@ spark = SparkSession.builder \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")\
     .config("spark.delta.logStore.class", "io.delta.storage.S3SingleDriverLogStore") \
-    .config('spark.jars','/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar')\
-    .config('spark.jars','/opt/spark/jars/hadoop-aws-3.3.1.jar')\
-    .config('spark.jars','/opt/spark/jars/guava-27.0-jre.jar')\
-    .config('spark.jars','/opt/spark/jars/delta-core_2.12-1.2.1.jar')\
+    .config('spark.jars', 
+        '/opt/spark/jars/aws-java-sdk-bundle-1.11.375.jar,'
+        '/opt/spark/jars/hadoop-aws-3.3.1.jar,'
+        '/opt/spark/jars/guava-27.0-jre.jar,'
+        '/opt/spark/jars/delta-core_2.12-1.2.1.jar,'
+        '/opt/spark/jars/postgresql-42.3.5.jar') \
     .enableHiveSupport()\
     .getOrCreate()
 
 spark.sparkContext.setLogLevel("ERROR")
 
+print('\nCreating dwh')
 spark.sql("CREATE DATABASE IF NOT EXISTS dwh COMMENT 'Data Warehouse for Hospital'")
 
 
