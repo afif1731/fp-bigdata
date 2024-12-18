@@ -9,7 +9,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from datetime import date
 import joblib  # For saving the model
+from dotenv import load_dotenv
 
+load_dotenv()
 # Konfigurasi AWS Access
 AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
 AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY")
