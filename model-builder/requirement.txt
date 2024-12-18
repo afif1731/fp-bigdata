@@ -6,3 +6,5 @@ sqlalchemy
 dotenv
 quart
 joblib
+s3fs
+boto3
