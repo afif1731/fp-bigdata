@@ -1,4 +1,5 @@
 import joblib
+import pandas as pd
 from quart import Quart, request, jsonify
 from quart_cors import cors
 from middleware.custom_error import CustomError
