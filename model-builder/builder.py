@@ -103,5 +103,5 @@ print("Classification Report:")
 print(report)
 
 # Step 4: Save the pipeline
-joblib.dump(best_pipeline, '../model/best_model.pkl')
-print("Pipeline berhasil disimpan ke '../model/best_model.pkl'")
+joblib.dump(best_pipeline, '/root/bigdata/model/best_model.pkl')
+print("Pipeline berhasil disimpan ke '/root/bigdata/model/best_model.pkl'")
