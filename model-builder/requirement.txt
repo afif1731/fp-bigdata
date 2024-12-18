@@ -3,3 +3,6 @@ pyarrow
 fastparquet
 scikit-learn
 sqlalchemy
+dotenv
+quart
+joblib
