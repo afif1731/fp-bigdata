@@ -67,18 +67,12 @@ X_test = scaler.transform(X_test)
 
 # Step 3: Initialize the models with hyperparameter grids for GridSearchCV
 models = {
-    "Logistic Regression": LogisticRegression(class_weight='balanced'),
-    "Random Forest Classifier": RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced'),
-    "Support Vector Machine (SVM)": SVC(random_state=42, class_weight='balanced'),
-    "K-Nearest Neighbors (KNN)": KNeighborsClassifier()
+    "Random Forest Classifier": RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
 }
 
 # Hyperparameter grids for GridSearchCV
 param_grids = {
-    "Logistic Regression": {'C': [0.01, 0.1, 1, 10], 'solver': ['liblinear']},
-    "Random Forest Classifier": {'n_estimators': [50, 100, 200, 250, 300, 350, 400, 450, 500], 'max_depth': [None, 10, 20], 'min_samples_split': [2, 5, 10]},
-    "Support Vector Machine (SVM)": {'C': [0.01, 0.1, 1, 10], 'kernel': ['linear', 'rbf']},
-    "K-Nearest Neighbors (KNN)": {'n_neighbors': [3, 5, 7], 'weights': ['uniform', 'distance']}
+    "Random Forest Classifier": {'n_estimators': [350], 'max_depth': [None], 'min_samples_split': [2]}
 }
 
 # Step 4: Initialize GridSearchCV for each model and tune hyperparameters
