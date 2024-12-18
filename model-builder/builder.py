@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import boto3
+import pyarrow.parquet as pq
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -41,16 +42,8 @@ def load_parquet_from_s3_to_pandas(s3_path, aws_access_key, aws_secret_key):
     try:
         # Konfigurasi Pandas untuk menggunakan S3
         print(f"Loading file from S3 path: {s3_path}")
-        df = pd.read_parquet(
-            s3_path,
-            storage_options={
-                "key": aws_access_key,
-                "secret": aws_secret_key,
-                "client_kwargs": {
-                    "endpoint_url": "http://localhost:9001"
-                },
-            },
-        )
+        table = pq.read_table(s3_file_path, filesystem="s3")
+        df = table.to_pandas()
         print("Parquet data successfully loaded into Pandas DataFrame.")
         return df
     except Exception as e:
