@@ -1,12 +1,11 @@
 import os
 import pyarrow.parquet as pq
 import pyarrow.fs
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report
 from datetime import date
 import joblib  # For saving the model
@@ -46,12 +45,22 @@ data = load_parquet_from_s3_to_pandas(s3_file_path)
 
 print(data.columns)
 
-# Step 2: Preprocess the data
-# Encoding categorical variables
-label_encoder = LabelEncoder()
-data['gender'] = label_encoder.fit_transform(data['gender'])
-data['primary_diagnosis'] = label_encoder.fit_transform(data['primary_diagnosis'])
-data['discharge_to'] = label_encoder.fit_transform(data['discharge_to'])
+# Step 1: Preprocessing
+# Define categorical and numerical columns
+categorical_columns = ['gender', 'primary_diagnosis', 'discharge_to']
+numerical_columns = [col for col in data.columns if col not in categorical_columns + ['readmitted']]
+
+# Define transformers for preprocessing
+categorical_transformer = OneHotEncoder(handle_unknown='ignore')
+numerical_transformer = StandardScaler()
+
+# Combine transformers into a ColumnTransformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_columns),
+        ('cat', categorical_transformer, categorical_columns)
+    ]
+)
 
 # Separate features (X) and target variable (y)
 X = data.drop('readmitted', axis=1)
@@ -60,70 +69,39 @@ y = data['readmitted']
 # Split data into training and testing sets (80% training, 20% testing)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
 
-# Standardize the numerical features
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
+# Step 2: Create pipeline with preprocessor and model
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', RandomForestClassifier(random_state=42, class_weight='balanced'))
+])
 
-# Step 3: Initialize the models with hyperparameter grids for GridSearchCV
-models = {
-    "Random Forest Classifier": RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+# Define hyperparameter grid
+param_grid = {
+    'classifier__n_estimators': [350],
+    'classifier__max_depth': [None],
+    'classifier__min_samples_split': [2]
 }
 
-# Hyperparameter grids for GridSearchCV
-param_grids = {
-    "Random Forest Classifier": {'n_estimators': [350], 'max_depth': [None], 'min_samples_split': [2]}
-}
+# Step 3: Use GridSearchCV with the pipeline
+grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring='accuracy', n_jobs=-1, verbose=1)
 
-# Step 4: Initialize GridSearchCV for each model and tune hyperparameters
-results = {}
+# Train the model with GridSearchCV
+grid_search.fit(X_train, y_train)
 
-best_model_name = None  # To store the name of the best model
-best_accuracy = 0  # To store the best accuracy
+# Get the best pipeline
+best_pipeline = grid_search.best_estimator_
 
-for model_name, model in models.items():
-    print(f"Tuning {model_name}...")
-    grid_search = GridSearchCV(model, param_grids[model_name], cv=5, scoring='accuracy', n_jobs=-1, verbose=1)
-    
-    # Train the model with GridSearchCV
-    grid_search.fit(X_train, y_train)
-    
-    # Get the best model from the grid search
-    best_model_for_current_model = grid_search.best_estimator_
-    
-    # Predict on the test set
-    y_pred = best_model_for_current_model.predict(X_test)
-    
-    # Evaluate the model
-    accuracy = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred, output_dict=True)
-    
-    results[model_name] = {
-        "accuracy": accuracy,
-        "classification_report": report,
-        "best_params": grid_search.best_params_
-    }
-    
-    # Check if this is the best model
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        best_model_name = model_name
-        best_model = best_model_for_current_model
+# Predict on the test set
+y_pred = best_pipeline.predict(X_test)
 
-# Step 5: Compare the results
-# Print the accuracy and classification report for each model
-for model_name, result in results.items():
-    print(f"Model: {model_name}")
-    print(f"Best Parameters: {result['best_params']}")
-    print(f"Accuracy: {result['accuracy']}")
-    print("Classification Report:")
-    print(result['classification_report'])
-    print("-" * 50)
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
 
-# Step 6: Save the best model using joblib
-print(f"The best model is: {best_model_name} with accuracy: {best_accuracy}")
+print(f"Best Model Accuracy: {accuracy}")
+print("Classification Report:")
+print(report)
 
-# Save the best model using joblib (equivalent to model.save())
-joblib.dump(best_model, '../model/best_model.pkl')
-
-print("Best model saved as 'best_model.pkl'")
+# Step 4: Save the pipeline
+joblib.dump(best_pipeline, '../model/best_model.pkl')
+print("Pipeline berhasil disimpan ke '../model/best_model.pkl'")
