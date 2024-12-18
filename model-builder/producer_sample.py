@@ -19,7 +19,7 @@ POSTGRES_DB = get_env_var("POSTGRES_DB")
 POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")  # Default port 5432
 
 # File path ke data sumber
-data_source_path = "../dataset/data/patient_readmissions.csv"  # Ganti dengan path file Anda
+data_source_path = "../dataset/data/train_df.csv"  # Ganti dengan path file Anda
 
 # PostgreSQL connection string
 postgres_url = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_ENDPOINT}:{POSTGRES_PORT}/{POSTGRES_DB}"
