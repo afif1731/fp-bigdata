@@ -1,0 +1,5 @@
+quart
+quart-cors
+joblib
+asyncio
+numpy

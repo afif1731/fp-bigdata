@@ -5,6 +5,8 @@ scikit-learn
 sqlalchemy
 dotenv
 quart
+quart-cors
+asyncio
 joblib
 s3fs
 boto3

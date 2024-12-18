@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+@tailwind utilities;
+
+@layer components {
+    .ptm-h1 {
+        @apply lg:text-[65px] text-[27px] font-bold font-montserrat;
+    }
+    .ptm-h2 {
+        @apply md:text-[48px] text-[24px] font-bold font-montserrat;
+    }
+    .ptm-h3 {
+        @apply md:text-[36px] text-[24px] font-bold font-montserrat;
+    }
+    .ptm-h4 {
+        @apply lg:text-[28px] md:text-[18px] text-[16px] font-bold font-montserrat;
+    }
+    .ptm-h5 {
+        @apply lg:text-[24px] md:text-[16px] text-[14px] font-semibold font-montserrat;
+    }
+    .ptm-p {
+        @apply lg:text-[24px] text-[18px] font-normal font-montserrat;
+    }
+    .ptm-p2 {
+        @apply text-[15px] font-medium font-montserrat;
+    }
+    .ptm-p3 {
+        @apply lg:text-[18px] text-[16px] font-normal font-montserrat;
+    }
+    .ptm-p4 {
+        @apply md:text-[24px] text-[14px] font-montserrat;
+    }
+    .ptm-card-title {
+        @apply lg:text-[24px] text-[24px] font-bold font-montserrat;
+    }
+    .ptm-card-subtitle {
+        @apply lg:text-[16px] text-[15px] font-normal font-montserrat;
+    }
+    .ptm-card-btn {
+        @apply lg:text-[15px] text-[15px] font-medium font-montserrat;
+    }
+    .ptm-logo-text {
+        @apply text-[20px] font-bold font-montserrat;
+    }
+}
