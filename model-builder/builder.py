@@ -18,7 +18,7 @@ AWS_S3_REGION = "us-east-1"  # Ganti dengan region S3 Anda jika berbeda
 
 # Path file di S3
 today = date.today().strftime("%b-%d-%Y")
-s3_file_path = f"s3://{AWS_BUCKET_NAME}/bronze/hospitaldb/{today}/patient_readmissions.parquet"
+s3_file_path = f"s3://{AWS_BUCKET_NAME}/bronze/hospitaldb/{today}/part-00000-4288396d-aa41-4bf8-8e72-d82f49ebfaec-c000.snappy.parquet"
 
 # Membaca data dari S3 ke Pandas DataFrame
 def load_parquet_from_s3_to_pandas(s3_path, aws_access_key, aws_secret_key):
@@ -123,6 +123,6 @@ for model_name, result in results.items():
 print(f"The best model is: {best_model_name} with accuracy: {best_accuracy}")
 
 # Save the best model using joblib (equivalent to model.save())
-joblib.dump(best_model, 'best_model.pkl')
+joblib.dump(best_model, '../model/best_model.pkl')
 
 print("Best model saved as 'best_model.pkl'")

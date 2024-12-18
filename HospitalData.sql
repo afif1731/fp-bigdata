@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS Patient_Readmissions;
 
 -- Create the Schema
 CREATE TABLE IF NOT EXISTS Patient_Readmissions(
-            patient_id INT NOT NULL PRIMARY KEY,
             age INT NOT NULL,
             gender VARCHAR(10) NOT NULL,
             primary_diagnosis VARCHAR(125) NOT NULL,
