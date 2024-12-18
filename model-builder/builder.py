@@ -1,7 +1,6 @@
 import os
-import pandas as pd
-import boto3
 import pyarrow.parquet as pq
+import pyarrow.fs
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -24,25 +23,17 @@ AWS_S3_REGION = "us-east-1"  # Ganti dengan region S3 Anda jika berbeda
 today = date.today().strftime("%b-%d-%Y")
 s3_file_path = f"http://localhost:9000/{AWS_BUCKET_NAME}/bronze/hospitaldb/{today}/patient_readmissions/part-00000-4288396d-aa41-4bf8-8e72-d82f49ebfaec-c000.snappy.parquet"
 
-s3 = boto3.client(
-    "s3",
-    aws_access_key_id=AWS_ACCESS_KEY,
-    aws_secret_access_key=AWS_SECRET_KEY,
-    endpoint_url="http://localhost:9000",  # Untuk MinIO
-)
-
-prefix = f"bronze/hospitaldb/{today}/patient_readmissions"
-
-response = s3.list_objects_v2(Bucket=AWS_BUCKET_NAME, Prefix=prefix)
-for obj in response.get("Contents", []):
-    print(obj["Key"])
-
 # Membaca data dari S3 ke Pandas DataFrame
-def load_parquet_from_s3_to_pandas(s3_path, aws_access_key, aws_secret_key):
+def load_parquet_from_s3_to_pandas(s3_path):
     try:
         # Konfigurasi Pandas untuk menggunakan S3
         print(f"Loading file from S3 path: {s3_path}")
-        table = pq.read_table(s3_file_path, filesystem="s3")
+        s3 = pyarrow.fs.S3FileSystem(
+            access_key=AWS_ACCESS_KEY,
+            secret_key=AWS_SECRET_KEY,
+            endpoint_override="http://localhost:9000"  # Ganti ini jika menggunakan MinIO
+        )
+        table = pq.read_table(s3_file_path, filesystem=s3)
         df = table.to_pandas()
         print("Parquet data successfully loaded into Pandas DataFrame.")
         return df
@@ -51,7 +42,7 @@ def load_parquet_from_s3_to_pandas(s3_path, aws_access_key, aws_secret_key):
         return None
 
 
-data = load_parquet_from_s3_to_pandas(s3_file_path, AWS_ACCESS_KEY, AWS_SECRET_KEY)
+data = load_parquet_from_s3_to_pandas(s3_file_path)
 
 print(data.columns)
 
