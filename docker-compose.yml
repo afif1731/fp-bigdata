@@ -92,17 +92,17 @@ services:
       - "5432:5432"
 
   mariadb:
-    image: mariadb:10.11.2
+    image: 'mariadb:10.11.2'
     container_name: mariadb
     hostname: mariadb
     ports:
       - "3306:3306"
     environment:
-      - USE_S3_STORAGE=0
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=adminbigdata
-      - MYSQL_PASSWORD=admin
-      - MYSQL_DATABASE=metastore_db
+      USE_S3_STORAGE: 0
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: adminbigdata
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: metastore_db
     volumes:
     - ./mariadb-config/my.cnf:/etc/mysql/conf.d/my.cnf
 
