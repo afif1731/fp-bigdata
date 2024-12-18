@@ -68,4 +68,4 @@ async def RecommendationRouter():
         return jsonify(err.JSON()),err.code
 
 if __name__ == '__main__':
-    asyncio.run(app.run(host='159.89.203.127', port=PORT, debug=True))
+    asyncio.run(app.run(host='206.189.41.231', port=PORT, debug=True))
